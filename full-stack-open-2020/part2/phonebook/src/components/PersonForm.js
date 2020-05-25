@@ -12,13 +12,13 @@ const PersonForm = (props) => {
         const newPerson = {
             name: name,
             number: newNumber,
-            id: props.persons.length + 1
         }
         phonebook.create(newPerson)
             .then(response => {
-                props.setPersons(props.persons.concat(response))
                 setNewNumber('')
                 setNewName('')
+                props.setNotification(`Added person ${newPerson.name}`)
+                props.setPersons(props.persons.concat(response))
             })
             .catch(error => console.log(error))
     }

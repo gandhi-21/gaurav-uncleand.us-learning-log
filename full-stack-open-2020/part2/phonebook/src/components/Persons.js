@@ -16,6 +16,9 @@ const Persons = (props) => {
         if(window.confirm(`Delete ${person.name} ?`)) {
             phonebook.deletePerson(person.id).then(response => {
                 console.log(response)
+                props.setNotification(`Deleted ${person.name}`)
+                props.setPersons(props.persons.filter(individualPerson => individualPerson.name !== person.name))
+
             }).catch(error => console.log(error))
         }
     }
