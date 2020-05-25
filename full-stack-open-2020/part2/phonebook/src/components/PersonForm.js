@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import phonebook from '../services/phonebook'
 
 const PersonForm = (props) => {
 
@@ -7,23 +8,19 @@ const PersonForm = (props) => {
 
     const addPerson = (event) => {
         event.preventDefault()
-
-        let check = props.persons.find(person => person.name === newName)
-
-        if(check !== undefined)
-        {
-            window.alert(`${newName} is already adde to the phonebook`)
-        } else {
-            const name = newName
-            const newPerson = {
-                name: name,
-                number: newNumber,
-                id: props.persons.length + 1
-            }
-            props.setPersons(props.persons.concat(newPerson))
+        const name = newName
+        const newPerson = {
+            name: name,
+            number: newNumber,
+            id: props.persons.length + 1
         }
-        setNewName('')
-        setNewNumber('')
+        phonebook.create(newPerson)
+            .then(response => {
+                props.setPersons(props.persons.concat(response))
+                setNewNumber('')
+                setNewName('')
+            })
+            .catch(error => console.log(error))
     }
 
     const handlePersonChange = (event) => {
